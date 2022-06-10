@@ -13,7 +13,9 @@ export async function fetchImages(search, page) {
       orientation: 'horizontal',
       safesearch: true,
     },
+    headers: {
+      'Content-Type': 'application/json;charset=utf-8',
+    },
   });
-
   return response.data;
 }
