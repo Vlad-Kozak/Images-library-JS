@@ -20,7 +20,16 @@ loadMoreBtn.addEventListener('click', onClickLoadMoreBtn);
 function onSubmit(e) {
   e.preventDefault();
   page = 1;
-  firstRenderMarkupGallery(e.currentTarget.elements.searchQuery.value.trim());
+
+  const inputValue = e.currentTarget.elements.searchQuery.value.trim();
+
+  if (!inputValue) {
+    return Notify.info(
+      'Sorry, there are no images matching your search query. Please try again.'
+    );
+  }
+
+  firstRenderMarkupGallery(inputValue);
 }
 
 function onClickLoadMoreBtn() {
@@ -31,8 +40,8 @@ function onClickLoadMoreBtn() {
 function firstRenderMarkupGallery(search) {
   fetchImages(search, page)
     .then(r => {
-      if (r.hits.length === 0) {
-        Notify.info(
+      if (!r.hits.length) {
+        return Notify.info(
           'Sorry, there are no images matching your search query. Please try again.'
         );
       }
